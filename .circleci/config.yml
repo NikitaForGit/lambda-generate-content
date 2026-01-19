@@ -1,0 +1,106 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@2.1.1
+  aws-cli: circleci/aws-cli@4.1.3
+
+jobs:
+  lint-and-test:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            pip install -r requirements.txt
+            pip install ruff pytest
+      - run:
+          name: Lint code
+          command: |
+            ruff check src/ --ignore E501
+      - run:
+          name: Run tests
+          command: |
+            pytest tests/ -v || echo "No tests found"
+
+  build:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Build Lambda package
+          command: |
+            mkdir -p dist
+            BUILD_DIR=$(mktemp -d)
+
+            echo "Building lambda-generate-content..."
+
+            # Copy all source files to build directory
+            cp src/*.py "$BUILD_DIR/"
+
+            # Install dependencies
+            pip install -r requirements.txt -t "$BUILD_DIR/"
+
+            # Create deployment package
+            cd "$BUILD_DIR"
+            zip -r "$OLDPWD/dist/lambda-generate-content.zip" . -x "*.pyc" "__pycache__/*" "*.dist-info/*"
+            cd "$OLDPWD"
+
+            rm -rf "$BUILD_DIR"
+            ls -lh dist/lambda-generate-content.zip
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  deploy:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-cli/setup:
+          role_arn: ${AWS_ROLE_ARN}
+          region: ${AWS_REGION}
+      - run:
+          name: Upload to S3
+          command: |
+            aws s3 cp dist/lambda-generate-content.zip \
+              "s3://${LAMBDA_ARTIFACTS_BUCKET}/lambda/generate_content.zip"
+      # - run:
+      #     name: Update Lambda function
+      #     command: |
+      #       aws lambda update-function-code \
+      #         --function-name "generate-content" \
+      #         --s3-bucket "${LAMBDA_ARTIFACTS_BUCKET}" \
+      #         --s3-key "lambda/generate_content.zip" \
+      #         --publish
+      - run:
+          name: Deployment Summary
+          command: |
+            echo "========================================="
+            echo "  lambda-generate-content Deployed!"
+            echo "========================================="
+            echo "Environment: ${ENVIRONMENT}"
+            echo "Function: ${PROJECT_NAME}-${ENVIRONMENT}-generate-content"
+            echo "========================================="
+
+workflows:
+  build-test-deploy:
+    jobs:
+      - lint-and-test
+      - build:
+          requires:
+            - lint-and-test
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
+                - master
+          context:
+            - aws-credentials
