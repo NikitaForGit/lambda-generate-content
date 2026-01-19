@@ -69,14 +69,14 @@ jobs:
           command: |
             aws s3 cp dist/lambda-generate-content.zip \
               "s3://${LAMBDA_ARTIFACTS_BUCKET}/lambda/generate_content.zip"
-      # - run:
-      #     name: Update Lambda function
-      #     command: |
-      #       aws lambda update-function-code \
-      #         --function-name "generate-content" \
-      #         --s3-bucket "${LAMBDA_ARTIFACTS_BUCKET}" \
-      #         --s3-key "lambda/generate_content.zip" \
-      #         --publish
+      - run:
+          name: Update Lambda function
+          command: |
+            aws lambda update-function-code \
+              --function-name "generate-content" \
+              --s3-bucket "${LAMBDA_ARTIFACTS_BUCKET}" \
+              --s3-key "lambda/generate_content.zip" \
+              --publish
       - run:
           name: Deployment Summary
           command: |
