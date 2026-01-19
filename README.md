@@ -36,7 +36,7 @@ Generate content for topics in specified categories.
 
 ## Features
 
-- **AI Content Generation** - Uses Amazon Bedrock (Claude 3 Haiku) to generate high-quality articles
+- **AI Content Generation** - Uses Amazon Bedrock (Amazon Nova Lite) to generate high-quality articles
 - **Multiple Categories** - Supports 7 different content categories (facts, history, future analysis, how it works, comparisons, common myths, getting started)
 - **HTML Output** - Generates complete, styled HTML pages ready for publishing
 - **S3 Storage** - Automatically saves generated content to S3
@@ -64,7 +64,7 @@ Generate content for topics in specified categories.
 This Lambda requires the following environment variables (set by Terraform):
 
 - `OUTPUT_BUCKET_NAME` - S3 bucket where generated HTML files are saved
-- `BEDROCK_MODEL_ID` - Bedrock model ID (default: anthropic.claude-3-haiku-20240307-v1:0)
+- `BEDROCK_MODEL_ID` - Bedrock model ID (default: amazon.nova-lite-v1:0)
 - `ENVIRONMENT` - Environment name (prod, staging)
 
 ## Local Development
