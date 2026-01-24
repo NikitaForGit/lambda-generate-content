@@ -10,9 +10,8 @@ Include:
 - 7-10 fascinating and verified facts
 - Statistics and numbers where relevant
 - Brief explanations for each fact
-- Why these facts matter
 
-Write in an informative but engaging blog style. Use headers to organize the content."""
+Write in an informative but engaging blog style. Use headers to organize the content.""",
     },
     "history": {
         "name": "History",
@@ -25,7 +24,7 @@ Include:
 - Timeline of major events
 - How it evolved to its current state
 
-Write in an engaging narrative style suitable for a blog article. Use headers to organize chronologically."""
+Write in an engaging narrative style suitable for a blog article. Use headers to organize chronologically.""",
     },
     "future_analysis": {
         "name": "Future Analysis",
@@ -38,7 +37,7 @@ Include:
 - Challenges and opportunities ahead
 - Factors that could influence the future
 
-Write in an analytical yet accessible blog style. Use headers to organize predictions by timeframe or theme."""
+Write in an analytical yet accessible blog style. Use headers to organize predictions by timeframe or theme.""",
     },
     "how_it_works": {
         "name": "How It Works",
@@ -51,7 +50,7 @@ Include:
 - Real-world examples and analogies
 - Common misconceptions clarified
 
-Write in an educational blog style that makes complex topics understandable. Use headers to break down concepts."""
+Write in an educational blog style that makes complex topics understandable. Use headers to break down concepts.""",
     },
     "comparisons": {
         "name": "Comparisons",
@@ -64,7 +63,7 @@ Include:
 - Use cases where each excels
 - Recommendations for different scenarios
 
-Write in an objective, balanced blog style. Use comparison tables or lists where helpful."""
+Write in an objective, balanced blog style. Use comparison tables or lists where helpful.""",
     },
     "common_myths": {
         "name": "Common Myths",
@@ -77,7 +76,7 @@ Include:
 - Evidence and facts that debunk them
 - What people should know instead
 
-Write in an engaging, enlightening blog style. Use clear myth vs. reality formatting."""
+Write in an engaging, enlightening blog style. Use clear myth vs. reality formatting.""",
     },
     "getting_started": {
         "name": "Getting Started",
@@ -90,6 +89,6 @@ Include:
 - Common beginner mistakes to avoid
 - Next steps after the basics
 
-Write in a friendly, encouraging blog style perfect for newcomers. Use numbered steps and clear headers."""
-    }
+Write in a friendly, encouraging blog style perfect for newcomers. Use numbered steps and clear headers.""",
+    },
 }
