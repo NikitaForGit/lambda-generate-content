@@ -73,19 +73,10 @@ jobs:
           name: Update Lambda function
           command: |
             aws lambda update-function-code \
-              --function-name "generate-content" \
+              --function-name "generate-content-prod" \
               --s3-bucket "${LAMBDA_ARTIFACTS_BUCKET}" \
               --s3-key "lambda/generate_content.zip" \
               --publish
-      - run:
-          name: Deployment Summary
-          command: |
-            echo "========================================="
-            echo "  lambda-generate-content Deployed!"
-            echo "========================================="
-            echo "Environment: ${ENVIRONMENT}"
-            echo "Function: ${PROJECT_NAME}-${ENVIRONMENT}-generate-content"
-            echo "========================================="
 
 workflows:
   build-test-deploy:
