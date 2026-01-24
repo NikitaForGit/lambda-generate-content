@@ -104,3 +104,4 @@ workflows:
                 - master
           context:
             - aws-credentials
+            - lambda-artifacts
