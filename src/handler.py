@@ -26,9 +26,7 @@ s3_client = boto3.client("s3")
 
 # Configuration from environment
 OUTPUT_BUCKET = os.environ.get("OUTPUT_BUCKET_NAME", "")
-BEDROCK_MODEL_ID = os.environ.get(
-    "BEDROCK_MODEL_ID", "amazon.nova-lite-v1:0"
-)
+BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "amazon.nova-lite-v1:0")
 
 
 def generate_with_bedrock(prompt: str) -> str:
@@ -53,13 +51,15 @@ def generate_with_bedrock(prompt: str) -> str:
     )
 
     response_body = json.loads(response["body"].read())
-    
+
     # Check if the response contains the expected output field
     if "output" not in response_body:
         error_msg = response_body.get("message", "Unknown Bedrock error")
-        error_code = response_body.get("__type", response_body.get("code", "UnknownError"))
+        error_code = response_body.get(
+            "__type", response_body.get("code", "UnknownError")
+        )
         raise RuntimeError(f"Bedrock API error [{error_code}]: {error_msg}")
-    
+
     # Nova response format: {"output": {"message": {"role": "assistant", "content": [{"text": "..."}]}}}
     return response_body["output"]["message"]["content"][0]["text"]
 
@@ -115,7 +115,7 @@ def save_to_s3(
     )
 
     filename = generate_filename(topic, category)
-    key = f"output/{filename}"
+    key = f"{category}/{filename}"
 
     s3_client.put_object(
         Bucket=OUTPUT_BUCKET,
