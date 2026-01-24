@@ -193,26 +193,24 @@ def render_html_page(
     content: str,
     meta_description: str = None,
     published_date: str = None,
-    generated_date: str = None,
+    generated_date: str = None
 ) -> str:
     """Render an HTML page from the template."""
     from datetime import datetime
-
+    
     now = datetime.utcnow()
-
+    
     if not meta_description:
-        meta_description = f"Learn about {topic} with a focus on {
-            category_name.lower()
-        }. Comprehensive article covering key insights and information."
-
+        meta_description = f"Learn about {topic} with a focus on {category_name.lower()}. Comprehensive article covering key insights and information."
+    
     if not published_date:
         published_date = now.strftime("%B %d, %Y")
-
+    
     if not generated_date:
         generated_date = now.strftime("%Y-%m-%d %H:%M")
-
+    
     title = f"{topic}: {category_name}"
-
+    
     return PAGE_TEMPLATE.format(
         title=title,
         topic=topic,
